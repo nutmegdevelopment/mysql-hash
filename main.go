@@ -54,14 +54,16 @@ func NewPass() string {
 }
 
 func main() {
-
-	flag.Arg(0)
-
 	if !generate {
-		fmt.Printf("hash:\t\t%s\n", Hash(os.Args[1]))
+		if len(os.Args) >= 2 {
+			fmt.Printf("hash:\t\t%s\n", Hash(os.Args[1]))
+		} else {
+			flag.Usage()
+			fmt.Fprintf(os.Stderr, "\n  Or provide password string as arg, mysql-hash <your-password>\n")
+			os.Exit(2)
+		}
 	} else {
 		pass := NewPass()
 		fmt.Printf("password:\t%s\nhash:\t\t%s\n", pass, Hash(pass))
 	}
-
 }
